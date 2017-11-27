@@ -5,6 +5,9 @@ ru:
               Список уведомлений: /list \n
               English language: /en \n
               Выход: /logout"
+    login:
+      prompt_email: "Введите email"
+      prompt_password: "Введите пароль"
     login_success: "Успешный вход!"
     logout_success: "Выход выполнен успешно"
     unread_notifications: "Непрочитанных уведомлений: "

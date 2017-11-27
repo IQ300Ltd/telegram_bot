@@ -1,9 +1,9 @@
 class ApiManager 
-
-  # require 'rest-client'
+ 
+  BASE_URL = 'https://app.iq300.ru'
 
   attr_reader :data, :error, :code
-  BASE_URL = 'https://app.iq300.ru'
+  
 
   def initialize(access_token)
     @access_token = access_token    
@@ -29,7 +29,7 @@ class ApiManager
     parse_response(response)
   end
 
-  def get_notification_counter  
+  def fetch_notification_counter  
     begin
       response = RestClient::Request.execute(method: :get,
                                           url: "#{BASE_URL}/api/v2/notifications/counters/",
@@ -40,7 +40,7 @@ class ApiManager
     parse_response(response)
   end
 
-  def get_unread
+  def fetch_unread
     begin
       response = RestClient::Request.execute(method: :get,
                                           url: "#{BASE_URL}/api/v2/notifications/",

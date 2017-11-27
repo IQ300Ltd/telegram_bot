@@ -1,30 +1,43 @@
 class TelegramController < Telegram::Bot::UpdatesController
-  
+  include Telegram::Bot::UpdatesController::MessageContext
   use_session!
+  context_to_action!
   around_action :require_login, except: [:login, :start, :ru, :en]
   before_action :set_locale, except: [:ru, :en]
 
   def start(*)
-    respond_with :message, text: t('.greeting')
+    respond_with :message, text: t('.greeting')        
   end
 
-  def login(email = '', pass = '', *)
-    if email.empty? || pass.empty?
-      respond_with :message, text: t('.error.no_email_password')
+  def login(*args)
+    if args[0] == nil
+      session['login_email'] = nil
+      respond_with :message, text: t('.prompt_email')
+      save_context :login
+    elsif args[0] != nil && args[1] == nil  
+      if session['login_email'] == nil
+        session['login_email'] = args[0]
+        respond_with :message, text: t('.prompt_password')
+        save_context :login
+      else
+        login(session['login_email'], args[0])  
+      end                                     
+      
     else
       manager = ApiManager.new(nil)
-      manager.login(email, pass)
+      manager.login(args[0], args[1])
       if manager.error.present? 
         if manager.code == 422
           respond_with :message, text: t('.error.wrong_password')
         else
           respond_with :message, text: manager.error  
-        end      
+        end 
+        session['login_email'] = nil     
       else 
         session[:access_token] = manager.data['access_token']
         respond_with :message, text: t('.login_success')
         manager = ApiManager.new(session[:access_token]) 
-        manager.get_notification_counter  
+        manager.fetch_notification_counter  
         session[:notification_counter] = manager.data['notification_counters']['pinned'] +
                                      manager.data['notification_counters']['not_pinned_unread']
         respond_with :message,
@@ -54,7 +67,7 @@ class TelegramController < Telegram::Bot::UpdatesController
 
   def new(*)    
     manager = ApiManager.new(session['access_token'])
-    manager.get_notification_counter 
+    manager.fetch_notification_counter 
     if manager.error.present? 
       respond_with :message, text: manager.error  
       if manager.wrong_token?
@@ -75,7 +88,7 @@ class TelegramController < Telegram::Bot::UpdatesController
 
   def list(*)
     manager = ApiManager.new(session['access_token'])
-    manager.get_unread
+    manager.fetch_unread
     if manager.error.present? 
       respond_with :message, text: manager.error  
       if manager.wrong_token?
@@ -89,7 +102,7 @@ class TelegramController < Telegram::Bot::UpdatesController
         text = manager.data['notifications'].map do |n|
           "• #{n['user']['short_name']} #{n['main_text']}"
         end.join("\n")
-        text += "\n https://app.iq300.ru/notifications?folder=new"
+        text << "\n https://app.iq300.ru/notifications?folder=new"
         respond_with :message, text: text
       end
     end

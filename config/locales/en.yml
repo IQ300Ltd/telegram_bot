@@ -5,6 +5,9 @@ en:
               Notifications list: /list \n
               Русский язык: /ru \n
               Logout: /logout"
+    login:
+      prompt_email: "Enter email"
+      prompt_password: "Enter password"
     login_success: "Successfully logged in!"
     logout_success: "Logged out"
     unread_notifications: "Unread notifications: "
