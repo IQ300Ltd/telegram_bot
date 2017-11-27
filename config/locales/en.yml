@@ -1,0 +1,21 @@
+en:
+  telegram:
+    greeting: "Enter your email and password after /login command \n
+              New notifications: /new \n
+              Notifications list: /list \n
+              Русский язык: /ru \n
+              Logout: /logout"
+    login_success: "Successfully logged in!"
+    logout_success: "Logged out"
+    unread_notifications: "Unread notifications: "
+    no_unread_notifications: "You don't have unread notifications"
+    no_new_notifications: "You don't have new notifications"
+    error:
+      wrong_password: "You have entered incorrect email or password"
+      no_email_password: "You need to enter email and password. Example: /login login@mail.com mypassword"
+      wrong_token: "Probably, you have changed your password. Log in again with /login."
+      wrong_command: "Unknown command"
+      no_auth: "First you need to log in with command: /login email пароль"
+    keyboard:
+      new: "Check notifications"
+      list: "Notifications list"

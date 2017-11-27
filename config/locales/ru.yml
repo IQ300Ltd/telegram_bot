@@ -1,0 +1,23 @@
+ru:
+  telegram:
+    greeting: "Введите ваш email и пароль после команды /login \n
+              Новые уведомления: /new \n
+              Список уведомлений: /list \n
+              English language: /en \n
+              Выход: /logout"
+    login_success: "Успешный вход!"
+    logout_success: "Выход выполнен успешно"
+    unread_notifications: "Непрочитанных уведомлений: "
+    no_unread_notifications: "Непрочитанных уведомлений нет"
+    no_new_notifications: "Новых уведомлений нет"
+    error:
+      wrong_password: "Вы ввели неверный email или пароль"
+      no_email_password: "Нужно ввести email и пароль. Вот так: /login login@mail.com mypassword"
+      wrong_token: "Возможно, вы изменили пароль. Войдите командой /login с новым паролем."
+      wrong_command: "Неизвестная команда"
+      no_auth: "Сначала нужно войти командой /login email пароль"
+    keyboard:
+      new: "Проверить уведомления"
+      list: "Загрузить список"
+
+
